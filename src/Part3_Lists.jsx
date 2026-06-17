@@ -94,6 +94,9 @@ function SectionA() {
 // Write PlayerRow here:
 function PlayerRow(props) {
   return (
+    // <li key={props.key}>
+    //   {props.name} -- {props.score}
+    // </li>
     <div>
       {props.name} -- {props.score}
     </div>
@@ -112,7 +115,8 @@ function SectionB() {
   // EXPLAIN: What is the advantage of rendering a component inside .map()
   //          compared to mapping to a plain HTML element like <li>?
   //
-  //          answer:
+  //          answer: Because this is cleaner than writing out each player by hand,
+  //          and reuses the same component structure for every item.
 
   return (
     <div>

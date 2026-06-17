@@ -14,8 +14,7 @@
 //   - For EXPLAIN tasks, write your answer as a comment below the prompt
 // ============================================================
 
-import { useState } from 'react'
-
+import { useState } from "react";
 
 // ------------------------------------------------------------
 // A NOTE ON EVENTS
@@ -30,7 +29,6 @@ import { useState } from 'react'
 // and so on. Each attribute takes a function as its value.
 // You do not call the function yourself — you hand it over, and React calls it.
 // ------------------------------------------------------------
-
 
 // ------------------------------------------------------------
 // SECTION A — useState Basics
@@ -50,10 +48,11 @@ function Counter() {
   // Why: useState gives you two things — the current value, and a function
   //      to update it. When you call the update function, React re-renders
   //      the component and shows the new value on the page.
-
+  const [count, setCount] = useState(0);
   // A2.
   // Add a button that says "Add 1".
   // When clicked, it should increase count by 1.
+  // const increment = () => setCount(count + 1);
 
   // A3.
   // Add a second button that says "Reset".
@@ -63,14 +62,12 @@ function Counter() {
 
   return (
     <div>
-      {/* A1: remove the hardcoded 0 with the state */}
-      <h3>Count: 0</h3>
-      {/* A2: Add 1 button */}
+      <h3>Count: {count}</h3>
+      <button onClick={() => setCount(count + 1)}>Add 1</button>
 
-      {/* A3: Reset button */}
-
+      <button onClick={() => setCount(0)}>Reset</button>
     </div>
-  )
+  );
 }
 
 function SectionA() {
@@ -78,16 +75,17 @@ function SectionA() {
   //          How is a state variable different from a regular variable?
   //          What happens on the page when you call the updater function?
   //
-  //          answer:
+  //          answer: state is data that react component remembers and can update over time.
+  //          -A regular variable resets to its original value every time a component re-renders.
+  //          -When we call the updater function - the count - the state variable also change its value.
 
   return (
     <div>
       <h2>Section A — useState</h2>
       <Counter />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION B — One Variable, Many Buttons
@@ -104,6 +102,7 @@ function MoodPicker() {
   // B1.
   // Declare a state variable called mood with an initial value of your choice
   // (a string, like "neutral").
+  const [mood, setMood] = useState("neutral");
 
   // B2.
   // Add three buttons: "Happy", "Sad", and "Excited".
@@ -122,16 +121,19 @@ function MoodPicker() {
   // EXPLAIN: How can three different buttons all update the same state variable?
   //          What is actually different between this component and Counter?
   //
-  //          answer:
+  //          answer:Three buttons get different text but they all update the same state variable which is mood by using setMood function.
+  //          In Counter the state variable count is directly updated and reset but this component - we first get the text - when clicked -
+  //          the event get trigger and get the innerText - and then use this text as arguemtn - passed into setMood() function - and display it
+  //
 
   return (
     <div>
-      {/* B2: three buttons go here */}
-
-      {/* B3: mood display goes here */}
-
+      <button onClick={() => setMood(event.target.innerText)}>Happy</button>
+      <button onClick={() => setMood(event.target.innerText)}>Sad</button>
+      <button onClick={() => setMood(event.target.innerText)}>Excited</button>
+      <p>Current Mood: {mood}</p>
     </div>
-  )
+  );
 }
 
 function SectionB() {
@@ -140,9 +142,8 @@ function SectionB() {
       <h2>Section B — One Variable, Many Buttons</h2>
       <MoodPicker />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION C — Controlled Inputs
@@ -158,6 +159,7 @@ function SectionB() {
 function NameInput() {
   // C1.
   // Declare a state variable called inputValue. Choose an appropriate initial value.
+  const [inputValue, setInputValue] = useState("");
 
   // C2.
   // Add an input element.
@@ -176,16 +178,21 @@ function NameInput() {
   // EXPLAIN: What is a controlled input?
   //          What would happen if the input's displayed value did not come from state?
   //
-  //          answer:
+  //          answer:  A controlled input means the value displayed in the input box
+  //          always comes from React state. Every keystroke updates state,
+  //          and the input re-renders with the new value.
+  //          If the input's display value did not come from state - We won't be able to get the real time data from the user.
 
   return (
     <div>
-      {/* C2: input goes here */}
-
-      {/* C3: display text goes here */}
-
+      <input
+        type="text"
+        onChange={() => setInputValue(event.target.value)}
+        placeholder="type something"
+      />
+      <p>{inputValue}</p>
     </div>
-  )
+  );
 }
 
 function SectionC() {
@@ -194,9 +201,8 @@ function SectionC() {
       <h2>Section C — Controlled Inputs</h2>
       <NameInput />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION D — Conditional Rendering
@@ -211,6 +217,7 @@ function SectionC() {
 function Toggle() {
   // D1.
   // Declare a state variable called isVisible with an initial value of false.
+  const [isVisible, setVisible] = useState(false);
 
   // D2.
   // Add a button that toggles isVisible between true and false when clicked.
@@ -227,7 +234,7 @@ function Toggle() {
 
   // D4.
   // Replace D3 with a ternary instead of &&.
-  // ternary structure: 
+  // ternary structure:
   // -> condition ? if condition is true : if condition is false
   // When isVisible is false, show a paragraph that says "I am hidden." instead.
   // A ternary has three parts: a condition, a value if true, and a value if false.
@@ -240,12 +247,11 @@ function Toggle() {
 
   return (
     <div>
-      {/* D2: button goes here */}
-
-      {/* D3 / D4: conditional message goes here */}
-
+      <label>{isVisible ? "On " : "Off "}</label>
+      <button onClick={() => setVisible(!isVisible)}>Toggle Visibility</button>
+      <p>{isVisible ? "Now You see Me" : "Now you don't!"} </p>
     </div>
-  )
+  );
 }
 
 function SectionD() {
@@ -254,9 +260,8 @@ function SectionD() {
       <h2>Section D — Conditional Rendering</h2>
       <Toggle />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION E — Callback Props
@@ -275,12 +280,7 @@ function LightSwitchButton(/* E3: accept a prop here */) {
   // Render a single button. When clicked, it should call that function.
   // Do not declare any state in this component — it doesn't need any.
 
-  return (
-    <div>
-      {/* E3: button goes here */}
-
-    </div>
-  )
+  return <div>{/* E3: button goes here */}</div>;
 }
 
 function LightSwitch() {
@@ -311,9 +311,8 @@ function LightSwitch() {
       {/* E5: on/off sentence goes here */}
 
       {/* E4: LightSwitchButton goes here */}
-
     </div>
-  )
+  );
 }
 
 function SectionE() {
@@ -322,9 +321,8 @@ function SectionE() {
       <h2>Section E — Callback Props</h2>
       <LightSwitch />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION F — Forms and preventDefault
@@ -373,9 +371,8 @@ function GreetingForm() {
       {/* F2: form goes here */}
 
       {/* F5: greeting goes here */}
-
     </div>
-  )
+  );
 }
 
 function SectionF() {
@@ -384,9 +381,8 @@ function SectionF() {
       <h2>Section F — Forms and preventDefault</h2>
       <GreetingForm />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION G — Adding and Removing from Array State
@@ -433,9 +429,8 @@ function SnackList() {
       {/* G2: Add Pretzels button goes here */}
 
       {/* G3 / G4: snack list or empty message goes here */}
-
     </div>
-  )
+  );
 }
 
 function SectionG() {
@@ -444,9 +439,8 @@ function SectionG() {
       <h2>Section G — Array State</h2>
       <SnackList />
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // Do not edit below this line.
@@ -471,7 +465,7 @@ function Part4() {
       <hr />
       <SectionG />
     </section>
-  )
+  );
 }
 
-export default Part4
+export default Part4;
