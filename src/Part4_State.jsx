@@ -243,7 +243,11 @@ function Toggle() {
   //          What is the difference between && and a ternary?
   //          When would you use one over the other?
   //
-  //          answer:
+  //          answer: && operator check the condition - if the both the condition is true it return true
+  //          if both conditon or one condtion is false - it return false
+  //          Both && and ternary are condition operator - but different in writting style.
+  //          if i want readibiliy and clear explaination i would use &&
+  //          but for simple short hand condition statements i would prefer ternary operators
 
   return (
     <div>
@@ -274,21 +278,27 @@ function SectionD() {
 //   function passed down the same way.
 // ------------------------------------------------------------
 
-function LightSwitchButton(/* E3: accept a prop here */) {
+function LightSwitchButton(props) {
   // E3.
   // This component should accept one prop — a function.
   // Render a single button. When clicked, it should call that function.
   // Do not declare any state in this component — it doesn't need any.
 
-  return <div>{/* E3: button goes here */}</div>;
+  return (
+    <div>
+      <button onClick={props.switchBtn}>Light Switch Button</button>
+    </div>
+  );
 }
 
 function LightSwitch() {
   // E1.
   // Declare a state variable called isOn with an initial value of false.
+  const [isOn, setOnF] = useState(false);
 
   // E2.
   // Write a function that flips isOn to the opposite value.
+  const flip = () => setOnF(!isOn);
 
   // E4.
   // Render LightSwitchButton below, passing your flip function from E2
@@ -310,7 +320,8 @@ function LightSwitch() {
     <div>
       {/* E5: on/off sentence goes here */}
 
-      {/* E4: LightSwitchButton goes here */}
+      <LightSwitchButton switchBtn={flip}></LightSwitchButton>
+      <h3>{isOn ? "Light is On" : " Light is Off"}</h3>
     </div>
   );
 }
