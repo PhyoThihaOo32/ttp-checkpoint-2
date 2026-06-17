@@ -11,7 +11,6 @@
 //   - For EXPLAIN tasks, write your answer as a comment below the prompt
 // ============================================================
 
-
 // ------------------------------------------------------------
 // SECTION A — Rendering a List from an Array
 //
@@ -23,12 +22,12 @@
 
 // The following array is provided. Do not change it.
 const players = [
-  { id: 1, name: "LeBron",  score: 42 },
-  { id: 2, name: "Curry",   score: 31 },
-  { id: 3, name: "Messi",   score: 55 },
-  { id: 4, name: "Serena",  score: 18 },
-  { id: 5, name: "Brady",   score: 67 },
-]
+  { id: 1, name: "LeBron", score: 42 },
+  { id: 2, name: "Curry", score: 31 },
+  { id: 3, name: "Messi", score: 55 },
+  { id: 4, name: "Serena", score: 18 },
+  { id: 5, name: "Brady", score: 67 },
+];
 
 function SectionA() {
   // A1.
@@ -38,6 +37,13 @@ function SectionA() {
   //
   // Why: React requires a unique key on each item in a mapped list so it
   //      can track which items changed, were added, or were removed.
+  const playerLists = players.map((player) => (
+    <ul>
+      <li key={player.id}>
+        {player.name} -- {player.score}
+      </li>
+    </ul>
+  ));
 
   // A2.
   // Add a second list below that shows only players with a score above 30.
@@ -47,23 +53,30 @@ function SectionA() {
   // EXPLAIN: Why does React require a key prop on each list item?
   //          What happens if two items share the same key?
   //
-  //          answer:
+  //          answer:React requires a unique key on each item in a mapped list so it
+  //                 can track which items changed, were added, or were removed.
+  //          If two items share the same key react will get confuse - and cause unwanted like overriding the first key value with the second key values.
+  //          We will also get a warning on the console.
+
+  const higherScoreList = players
+    .filter((player) => player.score > 30)
+    .map((player) => (
+      <li key={player.id}>
+        {player.name} -- {player.score}
+      </li>
+    ));
 
   return (
     <div>
       <h2>Section A — Rendering a List</h2>
       <h3>All Players</h3>
-      <ul>
-        {/* A1: map players here: */}
+      <ul>{playerLists}</ul>
 
-      </ul>
-
-      {/* A2: filtered list goes here: */}
-
+      <h2>Score above 30</h2>
+      <ul>{higherScoreList}</ul>
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // SECTION B — Lists and Components
@@ -79,8 +92,13 @@ function SectionA() {
 // It should accept props and display a player's name and score inside a <div>.
 //
 // Write PlayerRow here:
-
-
+function PlayerRow(props) {
+  return (
+    <div>
+      {props.name} -- {props.score}
+    </div>
+  );
+}
 
 function SectionB() {
   // B2.
@@ -99,12 +117,16 @@ function SectionB() {
   return (
     <div>
       <h2>Section B — Lists and Components</h2>
-      {/* B2: map PlayerRow components here */}
-
+      {players.map((player) => (
+        <PlayerRow
+          key={player.id}
+          name={player.name}
+          score={player.score}
+        ></PlayerRow>
+      ))}
     </div>
-  )
+  );
 }
-
 
 // ------------------------------------------------------------
 // Do not edit below this line.
@@ -119,7 +141,7 @@ function Part3() {
       <hr />
       <SectionB />
     </section>
-  )
+  );
 }
 
-export default Part3
+export default Part3;
