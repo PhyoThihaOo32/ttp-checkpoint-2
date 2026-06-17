@@ -314,7 +314,9 @@ function LightSwitch() {
   //          or number as a prop? What's different about it?
   //          Why doesn't LightSwitchButton need its own state to make this work?
   //
-  //          answer:
+  //          answer: It is similar in the way - that props is still the object and we are calling it property which in this case is the function
+  //          just like we are calling other properties that the child component can have.
+  //          The different is ????
 
   return (
     <div>
@@ -348,6 +350,8 @@ function GreetingForm() {
   // F1.
   // Declare a state variable called nameInput, starting as an empty string.
   // Declare a second state variable called greeting, starting as an empty string.
+  const [nameInput, setNameInput] = useState("");
+  const [greeting, setGreeting] = useState("");
 
   // F2.
   // Add a <form> containing a controlled text input wired to nameInput,
@@ -361,6 +365,11 @@ function GreetingForm() {
   //
   // Why: preventDefault() stops the browser's default reload-the-page
   //      behavior, so your state survives the submit.
+  function submitForm(nameInput, event) {
+    // event.preventDefault();
+    setGreeting(`Hello, ${nameInput}!`);
+    setNameInput(""); // clean up what is in the input
+  }
 
   // F4.
   // Wire your function from F3 to the form's submit event.
@@ -375,13 +384,19 @@ function GreetingForm() {
   // EXPLAIN: What happens if you submit a form without calling preventDefault()?
   //          Why does that matter for a component that holds state?
   //
-  //          answer:
+  //          answer: The page will reload and the state variable will not get render or display on the DOM.
 
   return (
     <div>
-      {/* F2: form goes here */}
+      <form>
+        <input type="text" onChange={() => setNameInput(event.target.value)} />
+        <button type="submit" onClick={() => submitForm(nameInput, event)}>
+          Greet Button
+        </button>
+      </form>
 
-      {/* F5: greeting goes here */}
+      <p>{greeting}</p>
+      {/* <p>{nameInput}</p> */}
     </div>
   );
 }
