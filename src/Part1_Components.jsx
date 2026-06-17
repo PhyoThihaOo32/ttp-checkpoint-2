@@ -94,12 +94,31 @@ function SectionA() {
 //     (href="#" is fine — we are not building real links yet)
 //
 // Write PageHeader here:
+function PageHeader() {
+  return (
+    <header>
+      <h1>My React App</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+  );
+}
 
 // B2.
 // Create a component called PageFooter.
 // It should return a <footer> element with a <p> that says "2026 TTP".
 //
 // Write PageFooter here:
+function PageFooter() {
+  return (
+    <footer>
+      <p>&copy; 2026 TTP</p>
+    </footer>
+  );
+}
 
 function SectionB() {
   // B3.
@@ -110,12 +129,15 @@ function SectionB() {
   //          Why do we split UI into separate components instead of
   //          writing everything inside one big function?
   //
-  //          answer:
+  //          answer: React component is a javascript function that return JSX.
+  //          We split UI into separate components - so we can chunk down into smaller component(sections) to keep it organize and managable(similar to the ideas from OOP programming?) - as the page or the DOM get complicated.
+  //          We can also re-use the component as needed.
 
   return (
     <div>
       <h2>Section B — Your Own Components</h2>
-      {/* Render your components below */}
+      <PageHeader></PageHeader>
+      <PageFooter></PageFooter>
     </div>
   );
 }
