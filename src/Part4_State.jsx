@@ -366,7 +366,7 @@ function GreetingForm() {
   // Why: preventDefault() stops the browser's default reload-the-page
   //      behavior, so your state survives the submit.
   function submitForm(nameInput, event) {
-    // event.preventDefault();
+    event.preventDefault();
     setGreeting(`Hello, ${nameInput}!`);
     setNameInput(""); // clean up what is in the input
   }
@@ -384,7 +384,9 @@ function GreetingForm() {
   // EXPLAIN: What happens if you submit a form without calling preventDefault()?
   //          Why does that matter for a component that holds state?
   //
-  //          answer: The page will reload and the state variable will not get render or display on the DOM.
+  //          answer: The page will reload so fast and we wont have time(only have a very short time) to see the greeting on DOM.
+  //          It matter because we still need control when to reload or render the page - for the component when the page reload the state variables
+  //          are also set to their initial values.
 
   return (
     <div>
@@ -425,11 +427,15 @@ function SnackList() {
   // G1.
   // Declare a state variable called snacks, an array starting with two
   // or three snack name strings of your choice.
+  const [snacks, setSnacks] = useState(["Doritos", "KitKats", "Mochi"]);
 
   // G2.
   // Add a button labeled "Add Pretzels". When clicked, it should add the
   // string "Pretzels" to the snacks array — without mutating the original
   // array. Look into the spread operator for this.
+  function addPretzels() {
+    setSnacks([...snacks, "Pretzels"]);
+  }
 
   // G3.
   // Display each snack using .map(). Each one needs a key, and its own
@@ -437,6 +443,15 @@ function SnackList() {
   //
   // Hint: array.filter() lets you build a new array that excludes one
   //       specific item.
+
+  function removeSnack(index) {
+    // index is used to get the current <li> which has it own id
+    const currSnack = document.getElementById(index); // use the current li to get the current snack name
+    const removedSnacks = snacks.filter(
+      (snack, i) => i.toString() !== currSnack.id,
+    );
+    setSnacks(removedSnacks); // render the updated snack to DOM
+  }
 
   // G4.
   // If snacks is empty, display "No snacks left." instead of the list.
@@ -452,9 +467,21 @@ function SnackList() {
 
   return (
     <div>
-      {/* G2: Add Pretzels button goes here */}
+      <button onClick={addPretzels}>Add Pretzels</button>
 
       {/* G3 / G4: snack list or empty message goes here */}
+      <ul>
+        {snacks.length === 0 ? (
+          <p>NO SNACKS LEFT</p>
+        ) : (
+          snacks.map((snack, index) => (
+            <>
+              <li id={index}>{snack} </li>
+              <button onClick={() => removeSnack(index)}>Remove</button>
+            </>
+          ))
+        )}
+      </ul>
     </div>
   );
 }
